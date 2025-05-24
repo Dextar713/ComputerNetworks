@@ -1,0 +1,36 @@
+Tracing route to google.com [142.250.187.110] over a maximum of 30 hops:
+1	192.168.91.171
+3	10.243.129.254
+4	10.243.130.3
+5	10.100.61.153
+7	10.100.66.154
+8	195.2.29.1 Bucharest AS1273 Vodafone Group PLC
+9	195.2.27.206 Sofia AS1273 Vodafone Group PLC
+10	209.85.149.140 Sofia AS15169 Google LLC
+12	142.251.246.232 Sofia AS15169 Google LLC
+13	192.178.108.42 Sofia AS15169 Google LLC
+14	142.251.242.76 Sofia AS15169 Google LLC
+15	192.178.107.91 Sofia AS15169 Google LLC
+16	142.251.52.81 Sofia AS15169 Google LLC
+17	142.250.187.110 Sofia AS15169 Google LLC
+Destination reached!
+
+--------------------------
+
+Tracing route to m.news.cn [222.186.162.52] over a maximum of 30 hops:
+1	192.168.91.171
+3	10.243.129.254
+4	10.243.130.3
+5	10.100.61.153
+7	10.100.66.154
+8	195.2.29.1 Bucharest AS1273 Vodafone Group PLC
+9	195.2.27.198 Cluj-Napoca AS1273 Vodafone Group PLC
+10	195.2.9.102 Frankfurt am Main AS1273 Vodafone Group PLC
+11	195.2.24.5 Paris AS1273 Vodafone Group PLC
+12	195.2.24.241 New York City AS1273 Vodafone Group PLC
+13	195.2.30.25 Ashburn AS1273 Vodafone Group PLC
+14	195.2.14.70 Washington AS1273 Vodafone Group PLC
+15	202.97.93.213 San Jose AS4134 CHINANET-BACKBONE
+18	202.97.71.25 Shanghai AS4134 CHINANET-BACKBONE
+22	222.186.29.66 Shanghai AS4134 CHINANET-BACKBONE
+23	222.186.162.44 Shanghai AS4134 CHINANET-BACKBONE
