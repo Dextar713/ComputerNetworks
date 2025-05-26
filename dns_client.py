@@ -1,33 +1,36 @@
-import random
-
+import socket
 from scapy.layers.dns import DNS, DNSQR
-from scapy.layers.inet import IP, UDP
-from scapy.packet import Raw
-from scapy.sendrecv import sr1
-from scapy.volatile import RandShort
+from scapy.all import raw
 
-dns_queries = ['www.google.com', 'www.yahoo.com', 'fmi.unibuc.ro']
-q_cnt = 0
+dns_queries = ['www.google.com', 'www.yahoo.com', 'fmi.unibuc.ro', '0001-cab8-4c8c-43de.reporo.net', 'quit']
 
-while q_cnt < len(dns_queries):
-    cur_query = random.choice(dns_queries)
-    ip = IP(dst='127.0.0.1')
-    transport = UDP(sport=RandShort(), dport=5000)  # RandShort() for random source port
+for query in dns_queries:
+    # Build DNS request using Scapy (for correctness)
+    dns_request = DNS(rd=1, qd=DNSQR(qname=query))
+    raw_data = raw(dns_request)
 
-    # DNS query: rd = 1 (recursive desired), qname = site-ul dorit
-    dns = DNS(rd=1, qd=DNSQR(qname=bytes(cur_query, 'utf-8'), qtype='A'))
+    # Create UDP socket
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    client_socket.settimeout(2)
 
-    response = sr1(ip / transport / dns, timeout=2)
+    try:
+        # Send raw DNS query to custom DNS server on localhost:5000
+        client_socket.sendto(raw_data, ("127.0.0.1", 5000))
 
-    if response is None:
-        print("No response from server.")
-    elif response.haslayer(DNS):
-        print(response[DNS].summary())
-    elif response.haslayer(Raw):
-        dns_parsed = DNS(response[Raw].load)
-        print("Manually parsed DNS from Raw:")
-        print(dns_parsed.summary())
-        print(dns_parsed.an.rdata)  # resolved IP, for example: 1.1.1.1
-    else:
-        print("Received unknown format:")
-        response.show()
+        # Wait for response
+        response_data, _ = client_socket.recvfrom(1024)
+
+        # Parse the response using Scapy
+        dns_response = DNS(response_data)
+
+        print(f"Query: {query}")
+        if dns_response.an:
+            print(f"Answer: {dns_response.an.rdata}")
+        else:
+            print("No answer section in response")
+
+    except socket.timeout:
+        print(f"Query: {query} -> No response (timeout)")
+
+    finally:
+        client_socket.close()
