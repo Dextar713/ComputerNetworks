@@ -1,0 +1,28 @@
+services:
+  dns_server:
+    build: .
+    container_name: dns_server
+    ports:
+      - "53:53/udp"  # Bind to standard DNS port
+    networks:
+      - dns_net
+    environment:
+      - DNS_PORT=53  # Changed from 53
+    cap_add: # Required for binding to port 53
+      - NET_BIND_SERVICE
+    entrypoint: ["python3", "dns/dns_server/dns_ad_blocker.py"]
+
+  dns_client:
+    build: .
+    container_name: dns_client
+    depends_on:
+      - dns_server
+    networks:
+      - dns_net
+    environment:
+      - DNS_PORT=53
+    entrypoint: [ "python3", "dns/dns_client/dns_client.py" ]
+
+networks:
+  dns_net:
+    driver: bridge

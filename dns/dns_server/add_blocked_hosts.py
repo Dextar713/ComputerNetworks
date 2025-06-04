@@ -1,7 +1,8 @@
+import os
 import sqlite3
 
-DB_NAME = "blacklist.db"
-HOSTS_FILE = "spam_domains.txt"  # your hosts file path
+DB_NAME = os.path.join(os.path.dirname(__file__), "blacklist.db")
+HOSTS_FILE = os.path.join(os.path.dirname(__file__), "spam_domains.txt")
 
 # Connect to SQLite (it will create the DB if not exists)
 if __name__ == '__main__':
